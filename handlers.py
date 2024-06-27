@@ -10,7 +10,7 @@ spisok = []
 
 spisok_2 = []
 
-admin_id = '1698138099'
+admin_id = '6494107709'
 
 
 @router.message(CommandStart())
