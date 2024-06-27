@@ -1,14 +1,14 @@
 import asyncio
 import logging
 import sys
-
+import os
+from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from love_bot.databasa.models import async_main
-
-
-BOT_TOKEN = ''
+from databasa.models import async_main
+dot = load_dotenv('.env')
+BOT_TOKEN = os.getenv('BOT_TOKEN')
 
 
 dp = Dispatcher()

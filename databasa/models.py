@@ -20,8 +20,7 @@ class Photo(Base):
     __tablename__ = 'photos'
     id: Mapped[int] = mapped_column(primary_key=True)
     file_path: Mapped[str] = mapped_column(String(256))
-    tg_givet: Mapped[str] = mapped_column(ForeignKey('users.id'))
-    tg_taket: Mapped[str] = mapped_column(ForeignKey('users.tg_fr_id'))
+    user_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
 
 
 async def async_main():

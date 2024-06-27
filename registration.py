@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
-from love_bot.databasa import set_user, check_registration
+from love_bot.databasa.requests import set_user, check_registration
 
 
 router = Router(name=__name__)
