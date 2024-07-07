@@ -11,7 +11,9 @@ async def set_user(tg_id, tg_fr_id):
 
 async def check_registration(tg_id):
     async with async_session() as session:
-        if session.scalar(select(User).where(User.tg_id == tg_id)):
+        user = await session.scalar(select(User).where(User.tg_id == tg_id))
+        if user:
+            return False
+        else:
             return True
-        return False
 
