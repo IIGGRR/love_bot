@@ -1,16 +1,14 @@
 from aiogram import html, F, Router, Bot
 from aiogram.filters import CommandStart
-from aiogram.types import Message
-from keyboards import start
+from aiogram.types import Message, CallbackQuery, FSInputFile
+from keyboards import start, get_photo_keyboard
+import os
 from random import choice
+from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo
 router = Router(name=__name__)
+PHOTOS_DIR = 'photos'
 
-spisok = []
-
-
-spisok_2 = []
-
-admin_id = '6494107709'
+admin_id = '1698138099'
 
 
 @router.message(CommandStart())
@@ -18,6 +16,7 @@ async def command_start_handler(message: Message) -> None:
     try:
         await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=start)
     except:
+
         await message.answer(f"Hello!", reply_markup=start)
 
 
@@ -44,19 +43,42 @@ async def get_sticker_handler(message: Message):
 async def skuch_handler(message: Message, bot: Bot):
     await message.answer('Напоминание отправлено')
 #    await message.answer_photo(photo='')
-    await bot.send_message(admin_id, text=f'динь от "{message.from_user.full_name}"')
+    tg_fr_id_1 = str(await get_id_partner(message.from_user.id))
+    await bot.send_message(tg_fr_id_1, text=f'динь от партнёра')
 
 
 @router.message(F.text == 'люблю тебя')
 async def love_handler(message: Message) -> None:
+    photos = await get_all_photo_partner(await get_id_partner(message.from_user.id))
     await message.answer('и я тебя:) чмок')
-    await message.answer_photo(photo=choice(spisok_2))
+    await message.answer(text='что то написал', reply_markup=await get_photo_keyboard(photos))
+
+
+@router.callback_query(F.data.startswith('photo'))
+async def send_photo_handler(call: CallbackQuery):
+    photo_id = call.data.split()[-1]
+    photo = await get_photo(photo_id)
+    photo_file = FSInputFile(photo.file_path)
+    await call.answer()
+    await call.message.answer_photo(photo_file)
+
+
+@router.message(F.text == 'отправка фоточки')
+async def photo_handler(message: Message):
+    await message.answer('отправь фотку, быстро!')
 
 
 @router.message(F.photo)
-async def photo_handler(message: Message):
-    spisok_2.append(str(message.photo[-1].file_id))
-    await message.answer(f'ID photo: {message.photo[-1].file_id}')
+async def add_photo_handler(message: Message, bot: Bot):
+    tg_id = message.from_user.id
+    photo = message.photo[-1]
+    file_info = await bot.get_file(photo.file_id)
+    file_path = os.path.join(PHOTOS_DIR, file_info.file_unique_id + '.jpg')
+    await bot.download(photo, file_path)
+    await set_photo(file_path, tg_id)
+    await message.answer(text='принято')
+    tg_fr_id_1 = str(await get_id_partner(message.from_user.id))
+    await bot.send_message(tg_fr_id_1, text=f'фотка от партнёра')
 
 
 @router.startup()
