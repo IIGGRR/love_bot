@@ -62,7 +62,7 @@ async def love_handler(message: Message) -> None:
 async def send_photo_handler(call: CallbackQuery):
     photo_id = call.data.split()[-1]
     photo = await get_photo(photo_id)
-    photo_file = FSInputFile(photo.file_path)
+    photo_file = FSInputFile('../' + photo.file_path)
     await call.message.answer_photo(photo_file)
     await call.answer()
 
