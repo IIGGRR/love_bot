@@ -1,4 +1,4 @@
-from love_bot.databasa.models import async_session, User, Photo
+from databasa.models import async_session, User, Photo
 from sqlalchemy import select
 
 
