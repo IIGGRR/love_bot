@@ -3,9 +3,11 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 
 start = ReplyKeyboardMarkup(keyboard=[[KeyboardButton(text='кНИГА жалоб'),
-                                       KeyboardButton(text='люблю тебя')],
-                                      [KeyboardButton(text='информация')],
-                                      [KeyboardButton(text='кыс')]], resize_keyboard=True)
+                                       KeyboardButton(text='информация')],
+                                      [KeyboardButton(text='получить фотку'),
+                                       KeyboardButton(text='отправка фоточки')],
+                                      [KeyboardButton(text='напомнить о любви'),
+                                      KeyboardButton(text='Сообщить об ошибке')]], resize_keyboard=True)
 
 
 async def get_photo_keyboard(photos):

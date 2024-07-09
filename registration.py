@@ -31,5 +31,3 @@ async def final_reg(message: Message, state: FSMContext):
     tg_id = context['tg_id']
     await set_user(tg_id, tg_fr_id)
     await message.answer(text='успешно зарегистрированы!')
-
-

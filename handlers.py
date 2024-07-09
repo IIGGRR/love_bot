@@ -39,7 +39,7 @@ async def get_sticker_handler(message: Message):
     await message.answer_sticker(sticker=id_stic)
 
 
-@router.message(F.text == 'кыс')
+@router.message(F.text == 'напомнить о любви')
 async def skuch_handler(message: Message, bot: Bot):
     await message.answer('Напоминание отправлено')
 #    await message.answer_photo(photo='')
@@ -47,10 +47,10 @@ async def skuch_handler(message: Message, bot: Bot):
     await bot.send_message(tg_fr_id_1, text=f'динь от партнёра')
 
 
-@router.message(F.text == 'люблю тебя')
+@router.message(F.text == 'получить фотку')
 async def love_handler(message: Message) -> None:
     photos = await get_all_photo_partner(await get_id_partner(message.from_user.id))
-    await message.answer('и я тебя:) чмок')
+    await message.answer('чмок :*')
     await message.answer(text='что то написал', reply_markup=await get_photo_keyboard(photos))
 
 
@@ -66,6 +66,20 @@ async def send_photo_handler(call: CallbackQuery):
 @router.message(F.text == 'отправка фоточки')
 async def photo_handler(message: Message):
     await message.answer('отправь фотку, быстро!')
+
+
+@router.message(F.text == 'Сообщить об ошибке')
+async def sign_handler(message: Message):
+    await message.answer("напиши об ошибке. начни сообщение так - 'Сообщение:'")
+
+
+@router.message(F.text.startswith('Сообщение:'))
+async def sign_repeat_handler(message: Message, bot: Bot):
+    await message.answer('Сообщение отправлено')
+    try:
+        await bot.send_message(admin_id, text=f'{message.text}. {message.from_user.full_name}')
+    except:
+        await bot.send_message(admin_id, text=message.text)
 
 
 @router.message(F.photo)
