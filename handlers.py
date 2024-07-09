@@ -99,7 +99,7 @@ async def add_photo_handler(message: Message, bot: Bot):
 
 @router.startup()
 async def on_startup(bot: Bot):
-    from love_bot.commands import set_commands
+    from commands import set_commands
     await set_commands(bot)
     await bot.send_message(admin_id, text=f'<tg-spoiler>Начало работы</tg-spoiler>')
 
