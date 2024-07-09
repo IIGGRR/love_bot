@@ -44,7 +44,7 @@ async def get_photo(photo_id):
 
 async def get_all_photo_partner(user_id):
     async with async_session() as session:
-        photos = await session.scalars((select(Photo).where(Photo.user_id == str(user_id))))
+        photos = await session.scalars((select(Photo).where(Photo.user_id == int(user_id))))
         return photos
 
 
