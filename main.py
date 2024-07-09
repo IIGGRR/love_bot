@@ -10,10 +10,14 @@ from databasa.models import async_main
 
 dp = Dispatcher()
 
+dot = load_dotenv('.env')
+
+API_TOKEN = os.getenv('BOT_TOKEN')
+bot = Bot(token=API_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
 
 async def main() -> None:
     await async_main()
-    bot = Bot(token='7312772482:AAGde65w8x-WQ7BmR-3xnq4-7H3d3VQbnGQ', default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     from handlers import router
     dp.include_router(router)
     from registration import router
