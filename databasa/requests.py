@@ -11,7 +11,7 @@ async def set_user(tg_id, tg_fr_id):
 
 async def check_registration(tg_id):
     async with async_session() as session:
-        user = await session.scalar(select(User).where(User.tg_id == int(tg_id)))
+        user = await session.scalar(select(User).where(User.tg_id == str(tg_id)))
         if user:
             return False
         else:
@@ -20,7 +20,7 @@ async def check_registration(tg_id):
 
 async def get_id_partner(tg_id):
     async with async_session() as session:
-        user = await session.scalar(select(User).where(User.tg_id == int(tg_id)))
+        user = await session.scalar(select(User).where(User.tg_id == str(tg_id)))
         return user.tg_fr_id
 
 
@@ -38,7 +38,7 @@ async def get_photo(photo_id):
 
 async def get_all_photo_partner(user_id):
     async with async_session() as session:
-        photos = await session.scalars((select(Photo).where(Photo.user_id == int(user_id))))
+        photos = await session.scalars((select(Photo).where(Photo.user_id == str(user_id))))
         return photos
 
 
