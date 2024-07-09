@@ -87,6 +87,8 @@ async def sign_repeat_handler(message: Message, bot: Bot):
 
 @router.message(F.photo)
 async def add_photo_handler(message: Message, bot: Bot):
+    if not os.path.exists(PHOTOS_DIR):
+        os.makedirs(PHOTOS_DIR)
     tg_id = message.from_user.id
     photo = message.photo[-1]
     file_info = await bot.get_file(photo.file_id)
