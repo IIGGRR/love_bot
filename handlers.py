@@ -4,7 +4,6 @@ from aiogram.types import Message, CallbackQuery, FSInputFile
 from keyboards import start, get_photo_keyboard
 import os
 from dotenv import load_dotenv
-from random import choice
 from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo
 router = Router(name=__name__)
 PHOTOS_DIR = 'photos'
