@@ -9,6 +9,12 @@ async def set_user(tg_id, tg_fr_id):
         await session.commit()
 
 
+async def get_id(tg_id):
+    async with async_session() as session:
+        user = await session.scalar(select(User).where(User.tg_id == str(tg_id)))
+        return user.id
+
+
 async def check_registration(tg_id):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.tg_id == str(tg_id)))
