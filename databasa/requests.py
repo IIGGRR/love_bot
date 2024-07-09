@@ -27,7 +27,7 @@ async def check_registration(tg_id):
 async def get_id_partner(tg_id):
     async with async_session() as session:
         user = await session.scalar(select(User).where(User.tg_id == str(tg_id)))
-        return user.tg_fr_id
+        return user.id
 
 
 async def set_photo(file_path, user_id):
