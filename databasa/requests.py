@@ -4,8 +4,8 @@ from sqlalchemy import select
 
 async def set_user(tg_id, tg_fr_id):
     async with async_session() as session:
-        session.add(User(tg_id=tg_id, tg_fr_id=tg_fr_id))
-        session.add(User(tg_id=tg_fr_id, tg_fr_id=tg_id))
+        session.add(User(tg_id=str(tg_id), tg_fr_id=str(tg_fr_id)))
+        session.add(User(tg_id=str(tg_fr_id), tg_fr_id=str(tg_id)))
         await session.commit()
 
 
@@ -26,7 +26,7 @@ async def get_id_partner(tg_id):
 
 async def set_photo(file_path, user_id):
     async with async_session() as session:
-        session.add(Photo(file_path=file_path, user_id=user_id))
+        session.add(Photo(file_path=file_path, user_id=int(user_id)))
         await session.commit()
 
 
