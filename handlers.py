@@ -52,7 +52,8 @@ async def skuch_handler(message: Message, bot: Bot):
 
 @router.message(F.text == 'получить фотку')
 async def love_handler(message: Message) -> None:
-    photos = await get_all_photo_partner(await get_id_partner(message.from_user.id))
+    user_fr_id = await get_id_partner(message.from_user.id)
+    photos = await get_all_photo_partner(user_fr_id)
     await message.answer('чмок :*')
     await message.answer(text='что то написал', reply_markup=await get_photo_keyboard(photos))
 
