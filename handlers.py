@@ -59,11 +59,11 @@ async def love_handler(message: Message) -> None:
 
 
 @router.callback_query(F.data.startswith('photo'))
-async def send_photo_handler(call: CallbackQuery):
+async def send_photo_handler(call: CallbackQuery, bot: Bot):
     photo_id = call.data.split()[-1]
     photo = await get_photo(photo_id)
-    photo_file = FSInputFile('../' + photo.file_path)
-    await call.message.answer_photo(photo_file)
+    photo_file = FSInputFile(photo.file_path)
+    await bot.send_photo(call.message.chat.id, photo_file)
     await call.answer()
 
 
