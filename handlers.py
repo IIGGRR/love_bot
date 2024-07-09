@@ -94,7 +94,7 @@ async def add_photo_handler(message: Message, bot: Bot):
     file_info = await bot.get_file(photo.file_id)
     file_path = os.path.join(PHOTOS_DIR, file_info.file_unique_id + '.jpg')
     print(file_path)
-    await bot.download(photo, file_info.file_path)
+    await bot.download(photo, file_info.file_unique_id)
     user_id = await get_id(tg_id)
     await set_photo(file_path=file_path, user_id=user_id)
     await message.answer(text='принято')
