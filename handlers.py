@@ -45,7 +45,7 @@ async def get_sticker_handler(message: Message):
 async def skuch_handler(message: Message, bot: Bot):
     await message.answer('Напоминание отправлено')
     #    await message.answer_photo(photo='')
-    tg_fr_id_1 = str(await get_id_partner(message.from_user.id))
+    tg_fr_id_1 = str(await get_tg_id_partner(message.from_user.id))
     await bot.send_message(tg_fr_id_1, text=f'динь от партнёра')
 
 
