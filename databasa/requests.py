@@ -30,6 +30,12 @@ async def get_id_partner(tg_id):
         return user.id
 
 
+async def get_tg_id_partner(tg_id):
+    async with async_session() as session:
+        user = await session.scalar(select(User).where(User.tg_fr_id == str(tg_id)))
+        return user.tg_id
+
+
 async def set_photo(file_path, user_id):
     async with async_session() as session:
         session.add(Photo(file_path=file_path, user_id=int(user_id)))

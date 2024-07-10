@@ -4,10 +4,10 @@ from aiogram.types import Message, CallbackQuery, FSInputFile
 from keyboards import start, get_photo_keyboard
 import os
 from dotenv import load_dotenv
-from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo, get_id
+from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo, get_id, get_tg_id_partner
 
 router = Router(name=__name__)
-PHOTOS_DIR = "photos/"
+PHOTOS_DIR = "photos"
 
 load_dotenv()
 
@@ -97,12 +97,13 @@ async def add_photo_handler(message: Message, bot: Bot):
     file_info = await bot.get_file(photo.file_id)
     file_path = os.path.join(PHOTOS_DIR, file_info.file_unique_id + '.jpg')
     print(file_path)
-    await bot.download(photo, file_info.file_unique_id)
+    await bot.download(photo, file_path)
     user_id = await get_id(tg_id)
     await set_photo(file_path=file_path, user_id=user_id)
     await message.answer(text='принято')
-    tg_fr_id_1 = str(await get_id_partner(message.from_user.id))
-    await bot.send_message(tg_fr_id_1, text=f'фотка от партнёра')
+    tg_fr_id = await get_tg_id_partner(message.from_user.id)
+    print(tg_fr_id)
+    await bot.send_message(tg_fr_id, text=f'фотка от партнёра')
 
 
 @router.startup()
