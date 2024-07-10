@@ -65,7 +65,7 @@ async def send_photo_handler(call: CallbackQuery, bot: Bot):
     photo_file = FSInputFile(photo.file_path)
     print(photo_file)
     print(photo.file_path)
-    await bot.send_photo(call.message.chat.id, photo_file)
+    await bot.send_message(call.message.chat.id, photo_file)
     await call.answer()
 
 
