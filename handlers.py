@@ -1,13 +1,13 @@
 from aiogram import html, F, Router, Bot
 from aiogram.filters import CommandStart
-from aiogram.types import Message, CallbackQuery, FSInputFile, InputFile
+from aiogram.types import Message, CallbackQuery, FSInputFile
 from keyboards import start, get_photo_keyboard
 import os
 from dotenv import load_dotenv
 from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo, get_id
 
 router = Router(name=__name__)
-PHOTOS_DIR = "love_bot/photos"
+PHOTOS_DIR = "/photos/"
 
 load_dotenv()
 
@@ -62,7 +62,7 @@ async def love_handler(message: Message) -> None:
 async def send_photo_handler(call: CallbackQuery, bot: Bot):
     photo_id = call.data.split()[-1]
     photo = await get_photo(photo_id)
-    photo_file = InputFile(photo.file_path).read(bot=bot)
+    photo_file = FSInputFile(photo.file_path)
     print(photo_file)
     print(photo.file_path)
     await bot.send_photo(call.message.chat.id, photo_file)
