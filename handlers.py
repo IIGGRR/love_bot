@@ -38,7 +38,6 @@ async def info_handler(message: Message) -> None:
 @router.message(F.sticker)
 async def get_sticker_handler(message: Message):
     id_stic = message.sticker.file_id
-    print(id_stic)
     await message.answer_sticker(sticker=id_stic)
 
 
@@ -63,8 +62,6 @@ async def send_photo_handler(call: CallbackQuery, bot: Bot):
     photo_id = call.data.split()[-1]
     photo = await get_photo(photo_id)
     photo_file = FSInputFile(photo.file_path)
-    print(photo_file)
-    print(photo.file_path)
     await bot.send_photo(call.message.chat.id, photo_file)
     await call.answer()
 
@@ -96,13 +93,13 @@ async def add_photo_handler(message: Message, bot: Bot):
     photo = message.photo[-1]
     file_info = await bot.get_file(photo.file_id)
     file_path = os.path.join(PHOTOS_DIR, file_info.file_unique_id + '.jpg')
-    print(file_path)
+
     await bot.download(photo, file_path)
     user_id = await get_id(tg_id)
     await set_photo(file_path=file_path, user_id=user_id)
     await message.answer(text='принято')
     tg_fr_id = await get_tg_id_partner(message.from_user.id)
-    print(tg_fr_id)
+
     await bot.send_message(tg_fr_id, text=f'фотка от партнёра')
 
 

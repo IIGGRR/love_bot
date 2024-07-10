@@ -22,6 +22,7 @@ async def reg(message: Message, state: FSMContext):
         await message.answer(text='Пришли ID своей/своего зайки/волчары. Его можно получить в боте https://t.me/getmyid_bot')
     else:
         await message.answer(text='ВЫ уже зарегистрированы, выйди отсюда, разбийник')
+        await state.clear()
 
 
 @router.message(RegistrationForm.tg_id)
