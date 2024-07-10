@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo, get_id
 
 router = Router(name=__name__)
-PHOTOS_DIR = "/photos/"
+PHOTOS_DIR = "photos"
 
 load_dotenv()
 
