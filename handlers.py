@@ -62,7 +62,7 @@ async def love_handler(message: Message) -> None:
 async def send_photo_handler(call: CallbackQuery, bot: Bot):
     photo_id = call.data.split()[-1]
     photo = await get_photo(photo_id)
-    photo_file = InputFile(photo.file_path)
+    photo_file = InputFile(photo.file_path).read(bot=bot)
     print(photo_file)
     print(photo.file_path)
     await bot.send_photo(call.message.chat.id, photo_file)
