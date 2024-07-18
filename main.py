@@ -18,7 +18,7 @@ bot = Bot(token=API_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTM
 
 async def main() -> None:
     # wait async_main()
-    await add_visits()
+    # await add_visits()
     from handlers import router
     dp.include_router(router)
     from registration import router
