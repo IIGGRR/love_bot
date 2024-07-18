@@ -1,10 +1,11 @@
 from aiogram import html, F, Router, Bot
-from aiogram.filters import CommandStart
+from aiogram.filters import CommandStart, Command, CommandObject
 from aiogram.types import Message, CallbackQuery, FSInputFile
 from keyboards import start, get_photo_keyboard
 import os
 from dotenv import load_dotenv
 from databasa.requests import get_id_partner, set_photo, get_photo, get_all_photo_partner, delete_all_photo, get_id, get_tg_id_partner
+from aiogram.utils.deep_linking import create_start_link, decode_payload
 
 router = Router(name=__name__)
 PHOTOS_DIR = "photos"
@@ -15,12 +16,22 @@ admin_id = os.getenv('ADMIN_ID')
 
 
 @router.message(CommandStart())
-async def command_start_handler(message: Message) -> None:
+async def command_start_handler(message: Message, bot: Bot, command: CommandObject) -> None:
+    args = command.args
+    print(args)
+    reference = decode_payload(args)
+    await message.answer(f"Ваш реферал {reference}")
     try:
         await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=start)
     except:
 
         await message.answer(f"Hello!", reply_markup=start)
+
+
+@router.message(Command('ref'))
+async def command_ref(message: Message, bot: Bot) -> None:
+    link = await create_start_link(payload=str(message.from_user.id), encode=True, bot=bot)
+    await message.answer(f"Ваша реф. ссылка {link}")
 
 
 @router.message(F.text == 'кНИГА жалоб')
