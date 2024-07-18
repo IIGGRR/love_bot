@@ -1,6 +1,8 @@
 from databasa.models import async_session, User, Photo
 from sqlalchemy import select
 
+from love_bot.databasa.models import Visit
+
 
 async def set_user(tg_id, tg_fr_id):
     async with async_session() as session:
@@ -57,4 +59,10 @@ async def get_all_photo_partner(user_fr_id):
 async def delete_all_photo():
     async with async_session() as session:
         session.delete(select(Photo))
+        await session.commit()
+
+
+async def set_visit(text):
+    async with async_session() as session:
+        session.add(Visit(text=text))
         await session.commit()

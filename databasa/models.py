@@ -23,9 +23,15 @@ class User(Base):
 class Photo(Base):
     __tablename__ = 'photos'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    name: Mapped[str] = mapped_column(String(64))
     file_path: Mapped[str] = mapped_column(String(256))
     user_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
 
+
+class Visit(Base):
+    __tablename__ = 'visits'
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    text: Mapped[str] = mapped_column(String(512))
 
 async def async_main():
     async with engine.begin() as conn:
