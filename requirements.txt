@@ -7,3 +7,4 @@ requests==2.32.3
 requests-cache==1.2.1
 beautifulsoup4==4.13.0b2
 lxml==5.2.2
+cloudinary==1.40.0

@@ -72,8 +72,10 @@ async def love_handler(message: Message) -> None:
 async def send_photo_handler(call: CallbackQuery, bot: Bot):
     photo_id = call.data.split()[-1]
     photo = await get_photo(photo_id)
-    photo_file = FSInputFile(photo.file_path)
+    """ photo_file = FSInputFile(photo.file_path)
     await bot.send_photo(call.message.chat.id, photo_file)
+    await call.answer()"""
+    await call.message.answer_photo(photo.file_path)
     await call.answer()
 
 
@@ -112,7 +114,7 @@ async def add_photo_handler(message: Message, bot: Bot):
         photo_url = result.get('secure_url')
     if photo_url:
         user_id = await get_id(tg_id)
-        await set_photo(file_path=file_path, user_id=user_id)
+        await set_photo(file_path=photo_url, user_id=user_id)
         await message.answer(text='принято')
     else:
         await message.answer(text='ошибка')
