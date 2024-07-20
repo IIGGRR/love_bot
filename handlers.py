@@ -18,9 +18,9 @@ admin_id = os.getenv('ADMIN_ID')
 @router.message(CommandStart())
 async def command_start_handler(message: Message, bot: Bot, command: CommandObject) -> None:
     args = command.args
-    print(args)
-    reference = decode_payload(args)
-    await message.answer(f"Ваш реферал {reference}")
+    if args:
+        reference = decode_payload(args)
+        await message.answer(f"Ваш реферал {reference}")
     try:
         await message.answer(f"Hello, {html.bold(message.from_user.full_name)}!", reply_markup=start)
     except:
@@ -104,13 +104,28 @@ async def add_photo_handler(message: Message, bot: Bot):
     photo = message.photo[-1]
     file_info = await bot.get_file(photo.file_id)
     file_path = os.path.join(PHOTOS_DIR, file_info.file_unique_id + '.jpg')
+    await bot.download(photo, file_path)
+    photo_url = None
+    with open(file_path, 'rb') as f:
+        from utils.cloudinary import cloudinary
+        result = cloudinary.uploader.upload(f)
+        photo_url = result.get('secure_url')
+    if photo_url:
+        user_id = await get_id(tg_id)
+        await set_photo(file_path=file_path, user_id=user_id)
+        await message.answer(text='принято')
+    else:
+        await message.answer(text='ошибка')
+    '''if not os.path.exists(PHOTOS_DIR):
+        os.makedirs(PHOTOS_DIR)
+    file_path = os.path.join(PHOTOS_DIR, file_info.file_unique_id + '.jpg')
 
     await bot.download(photo, file_path)
     user_id = await get_id(tg_id)
     await set_photo(file_path=file_path, user_id=user_id)
     await message.answer(text='принято')
+    '''
     tg_fr_id = await get_tg_id_partner(message.from_user.id)
-
     await bot.send_message(tg_fr_id, text=f'фотка от партнёра')
 
 

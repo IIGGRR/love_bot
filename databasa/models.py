@@ -23,7 +23,7 @@ class User(Base):
 class Photo(Base):
     __tablename__ = 'photos'
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
-    name: Mapped[str] = mapped_column(String(64))
+    name: Mapped[str] = mapped_column(String(64), nullable=True)
     file_path: Mapped[str] = mapped_column(String(256))
     user_id: Mapped[str] = mapped_column(ForeignKey('users.id'))
 
