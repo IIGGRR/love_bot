@@ -6,8 +6,7 @@ from dotenv import load_dotenv
 from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
-from databasa.models import async_main
-from requests_db.visits_requests import add_visits
+
 dp = Dispatcher()
 
 dot = load_dotenv('.env')
@@ -19,10 +18,18 @@ bot = Bot(token=API_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTM
 async def main() -> None:
     # wait async_main()
     # await add_visits()
-    from handlers import router
-    dp.include_router(router)
-    from registration import router
-    dp.include_router(router)
+    from love_bot.handlers.basic import router as basic_router
+    dp.include_router(basic_router)
+    from love_bot.handlers.help_handler import router as help_router
+    dp.include_router(help_router)
+    from love_bot.handlers.photo import router as photo_router
+    dp.include_router(photo_router)
+    from love_bot.handlers.registration import router as registration_router
+    dp.include_router(registration_router)
+    from love_bot.handlers.profile import router as profile_router
+    dp.include_router(profile_router)
+    from love_bot.handlers.roleplay import router as roleplay_router
+    dp.include_router(roleplay_router)
     await dp.start_polling(bot)
 
 

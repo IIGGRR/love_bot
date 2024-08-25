@@ -1,7 +1,6 @@
 import requests_cache
-import requests
 from bs4 import BeautifulSoup
-from databasa.requests import set_visit
+from love_bot.database.requests.visit import set_visit
 
 
 def req_visit(url):
